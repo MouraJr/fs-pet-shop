@@ -6,6 +6,9 @@ async function main() {
     // Reading pets.json file and parsing to JSON format
     const string = await readFile('./pets.json', 'utf8');
     const data = JSON.parse(string);
+    const age = Number(argv[3]);
+    const kind = argv[4];
+    const name = argv[5];
 
     // Reading commands from terminal
     const command = argv[2];
@@ -24,17 +27,33 @@ async function main() {
             }
             break;
         case 'create':
-            let age = Number(argv[3]);
-            let kind = argv[4];
-            let name = argv[5];
             let newObj = { age: age, kind: kind, name: name };
 
-            const getData = (objToPush) => argv[5] ? data.push(objToPush) : console.log('Usage: node pets.js create AGE KIND NAME')
+            if (name) {
+                data.push(newObj)
+                // Writing data to pets.json
+                await writeFile('pets.json', JSON.stringify(data));
+            } else {
+                console.error('Usage: node pets.js create AGE KIND NAME')
+            }
 
-            getData(newObj);
+            // const getData = (objToPush) => argv[5] ? data.push(objToPush) : console.error('Usage: node pets.js create AGE KIND NAME')
+            // getData(newObj);
+            break;
+        case 'update':
+            // get the dog object in data
+            let dogToUpdate = data[indexRead]
+            if (name) {
+                dogToUpdate[age] = age;
+                dogToUpdate[kind] = kind;
+                dogToUpdate[name] = name;
+                console.log(data)
+            } else {
+                console.error('Usage: node pets.js update INDEX AGE KIND NAME')
+                exit(1)
+            }
+            // console.log(dogToUpdate.name)
 
-            // Writing data to pets.json
-            await writeFile('pets.json', JSON.stringify(data));
             break;
         default:
             console.error('Usage: node pets.js [read | create | update | destroy]')
