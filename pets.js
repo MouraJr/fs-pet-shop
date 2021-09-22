@@ -7,14 +7,11 @@ async function main() {
     const string = await readFile('./pets.json', 'utf8');
     const data = JSON.parse(string);
 
-    // Writing data to pets.json
-    // const writingOnFile = (toInsert, file) => await writeFile(toInsert, file);
-
     // Reading commands from terminal
     const command = argv[2];
     const indexRead = argv[3];
 
-    if (command === undefined) {
+    if (!command) {
         console.error('Usage: node pets.js [read | create | update | destroy]')
         return exit(1)
     }
@@ -24,7 +21,7 @@ async function main() {
     //         : (indexRead !== undefined)
     // }
 
-    if (command === 'read' && indexRead === undefined) {
+    if (command === 'read' && !indexRead) {
         console.log(data)
         return exit(1)
     } else if (command === 'read' && indexRead) {
@@ -37,20 +34,22 @@ async function main() {
     }
 
     if (command === 'create') {
-        let age = argv[3];
+        let age = Number(argv[3]);
         let kind = argv[4];
         let name = argv[5];
         let newObj = { age: age, kind: kind, name: name };
 
-        let newData = { ...data, ...newObj }
+        const getData = (objToPush) => argv[5] ? data.push(objToPush) : console.log('Usage: node pets.js create AGE KIND NAME')
 
-        console.log(newData)
+        getData(newObj);
+        console.log(data)
+        // data.push(newObj)
+
+        // Writing data to pets.json
+        // const writingOnFile = (toInsert, file) => await writeFile(toInsert, file);
+
+        // console.log(data)
     }
-
 }
-
-// const command = argv[2]
-// console.log(command)
-// exit(1);
 
 main();
