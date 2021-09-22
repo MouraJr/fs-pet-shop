@@ -11,44 +11,34 @@ async function main() {
     const command = argv[2];
     const indexRead = argv[3];
 
-    if (!command) {
-        console.error('Usage: node pets.js [read | create | update | destroy]')
-        return exit(1)
-    }
+    switch (command) {
+        case 'read':
+            if (command === 'read' && !indexRead) {
+                console.log(data)
+            } else if (command === 'read' && indexRead) {
+                if (data[indexRead] === undefined) {
+                    console.error('Usage: node pets.js read INDEX')
+                } else {
+                    console.log(data[indexRead])
+                }
+            }
+            break;
+        case 'create':
+            let age = Number(argv[3]);
+            let kind = argv[4];
+            let name = argv[5];
+            let newObj = { age: age, kind: kind, name: name };
 
-    // const readingFile = (action, i) => {
-    //     return (action === 'read' && indexRead) === undefined ? console.log(data)
-    //         : (indexRead !== undefined)
-    // }
+            const getData = (objToPush) => argv[5] ? data.push(objToPush) : console.log('Usage: node pets.js create AGE KIND NAME')
 
-    if (command === 'read' && !indexRead) {
-        console.log(data)
-        return exit(1)
-    } else if (command === 'read' && indexRead) {
-        if (data[indexRead] === undefined) {
-            console.error('Usage: node pets.js read INDEX')
+            getData(newObj);
+
+            // Writing data to pets.json
+            await writeFile('pets.json', JSON.stringify(data));
+            break;
+        default:
+            console.error('Usage: node pets.js [read | create | update | destroy]')
             return exit(1)
-        } else {
-            console.log(data[indexRead])
-        }
-    }
-
-    if (command === 'create') {
-        let age = Number(argv[3]);
-        let kind = argv[4];
-        let name = argv[5];
-        let newObj = { age: age, kind: kind, name: name };
-
-        const getData = (objToPush) => argv[5] ? data.push(objToPush) : console.log('Usage: node pets.js create AGE KIND NAME')
-
-        getData(newObj);
-        console.log(data)
-        // data.push(newObj)
-
-        // Writing data to pets.json
-        // const writingOnFile = (toInsert, file) => await writeFile(toInsert, file);
-
-        // console.log(data)
     }
 }
 
