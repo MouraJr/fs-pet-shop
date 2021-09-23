@@ -1,14 +1,18 @@
 const { argv, exit } = require('process');
 const { readFile, writeFile } = require('fs/promises');
 
+// Reading pets.json file and parsing to JSON format
+const readFunction = async () => {
+    const string = await readFile('./pets.json', 'utf8');
+    return data = JSON.parse(string);
+}
+
 
 async function main() {
-    // Reading pets.json file and parsing to JSON format
-    const string = await readFile('./pets.json', 'utf8');
-    const data = JSON.parse(string);
     const age = Number(argv[3]);
     const kind = argv[4];
     const name = argv[5];
+    await readFunction();
 
     // Reading commands from terminal
     const command = argv[2];
@@ -62,3 +66,4 @@ async function main() {
 }
 
 main();
+module.exports = readFunction;
