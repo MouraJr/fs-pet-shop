@@ -1,13 +1,14 @@
 const express = require('express');
 const path = require('path');
+const { readFile } = require('fs');
+// const readData = require('./readJson');
 
 // Initialize express and store to app
 const app = express();
 
 
-
 // Gets all pets
-app.get('/pets', async (req, res) => {
+app.get('/pets', (req, res) => {
 
     readFile('./pets.json', 'utf8', (err, data) => {
         if (err) {
@@ -45,7 +46,26 @@ app.get('/pets/:index', (req, res) => {
 });
 
 // POST new pets to data
+app.post(`/pets age=3 kind=parakeet name=Cornflake`, (req, res) => {
+    const gettingAge = () => {
+        const petAgeRegExp = /^\/pets\%\d{2}\w{3}\=/;
+        const matches = req.url.match(petAgeRegExp);
+        return age = Number(matches[1]);
+    };
 
+    // const newPet = {
+    //     "age": age,
+    //     "kind": kind,
+    //     "name": name
+    // }
+
+    // if (!newPet.age || !newPet.kind || !newPet.name) {
+    //     return res.status(400).set('Content-Type', 'text/plain');
+    // }
+
+    // data.push(newPet);
+    res.end(age)
+})
 
 // Variable for PORT 500 if in development
 const PORT = process.env.PORT || 8000;
