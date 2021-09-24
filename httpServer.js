@@ -47,32 +47,17 @@ const server = createServer(async (req, res) => {
             }
             break;
         case 'POST':
+            const age = Number(argv[3]);
+            const kind = argv[4];
+            const name = argv[5];
+            await readFunction();
+
             console.log(url)
             break;
         default:
             console.error('Invalid Method')
             return exit(1)
     }
-
-    // if (methodReq === 'POST') {
-    //     console.log(url)
-    // }
-
-    // if (methodReq === 'GET' && url.pathname === '/pets') {
-    //     allPets()
-    // } else if (url.pathname === '/' && methodReq === 'GET') {
-    //     noUrl();
-    // } else {
-    //     gettingIndex()
-    //     if (index < data.length && index >= 0 && methodReq === 'GET') {
-    //         let getPet = data[index]
-    //         res.writeHead(200, { "Content-Type": "application/json" });
-    //         res.write(`${JSON.stringify(getPet)}`);
-    //         res.end();
-    //     } else {
-    //         noUrl();
-    //     }
-    // }
 
 });
 
