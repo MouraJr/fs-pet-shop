@@ -47,12 +47,12 @@ const server = createServer(async (req, res) => {
             }
             break;
         case 'POST':
-            const age = Number(argv[3]);
-            const kind = argv[4];
-            const name = argv[5];
-            await readFunction();
-
-            console.log(url)
+            const pathPost = url.pathname
+            const age = Number(url.pathname[12]);
+            // const kind = argv[4];
+            // const name = argv[5];
+            // await readFunction();
+            console.log(age)
             break;
         default:
             console.error('Invalid Method')
