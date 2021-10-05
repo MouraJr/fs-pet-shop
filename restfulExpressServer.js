@@ -83,6 +83,9 @@ app.patch('/pets/:index', async (req, res) => {
     }
 });
 
+// DELETE the data request
+app.delete("/pets/:id");
+
 // Variable for PORT 8000 if in development
 const PORT = process.env.PORT || 8000;
 
