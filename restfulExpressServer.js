@@ -46,7 +46,7 @@ app.post('/pets', async (req, res) => {
     }
 
     if (!newPet.name || !newPet.age || !newPet.kind) {
-        return res.status(400).end('Please include a name, age, and kind to create!')
+        return res.status(400).set('Content-Type', 'text/plain').end('Bad Request');
     }
 
     data.push(newPet)
@@ -84,10 +84,33 @@ app.patch('/pets/:index', async (req, res) => {
 });
 
 // DELETE the data request
-app.delete("/pets/:id");
+app.delete('/pets/:index', async (req, res) => {
+    await readFunction();
+    // Check if :index exist in data[index] 
+    const found = data.some(pet => data.indexOf(pet) === parseInt(req.params.index));
+
+    // Conditional if exist
+    if (found) {
+        // Delete element from data
+        const deletedPet = data.splice(parseInt(req.params.index), 1)
+        // Writing data to pets.json
+        await writeFile('pets.json', JSON.stringify(data))
+
+        res.set('Content-Type', 'application/json')
+        res.status(200);
+        res.send(deletedPet);
+
+    } else if (!found) {
+        res.set('Content-Type', 'text/plain')
+        res.status(404);
+        res.end('Not Found');
+    }
+});
 
 // Variable for PORT 8000 if in development
 const PORT = process.env.PORT || 8000;
 
 // Listining Server Start
 app.listen(PORT, () => console.log(`Server Started on port ${PORT}`));
+
+module.exports = app;

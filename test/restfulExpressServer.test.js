@@ -22,12 +22,12 @@ describe('pets restfulExpressServer', () => {
 
     app.__set__({
       'fs': {
-        readFile: function(path, encoding, cb){
-          if(/pets.json$/.test(path)) return cb(null,JSON.stringify(petsArr));
+        readFile: function (path, encoding, cb) {
+          if (/pets.json$/.test(path)) return cb(null, JSON.stringify(petsArr));
           cb(new Error('File does not exist'));
         },
-        writeFile: function(path, data, cb){
-          if(/pets.json$/.test(path)){
+        writeFile: function (path, data, cb) {
+          if (/pets.json$/.test(path)) {
             petsArr = JSON.parse(data);
             return cb(null);
           }
@@ -173,8 +173,8 @@ describe('pets restfulExpressServer', () => {
         .expect('Content-type', /json/)
         .expect(200, {
           age: 3,
-          kind: 'duck',
-          name: 'Bob'
+          kind: 'owl',
+          name: 'Hugo'
         }, (err, _res) => {
           if (err) {
             return done(err);
@@ -186,8 +186,8 @@ describe('pets restfulExpressServer', () => {
             .expect('Content-Type', /json/)
             .expect(200, {
               age: 3,
-              kind: 'duck',
-              name: 'Bob'
+              kind: 'owl',
+              name: 'Hugo'
             }, done);
         });
     });
@@ -199,11 +199,11 @@ describe('pets restfulExpressServer', () => {
         .del('/pets/1')
         .set('Authorization', 'Basic YWRtaW46bWVvd21peA==')
         .expect('Content-type', /json/)
-        .expect(200, {
-          age: 4,
-          kind: 'duck',
-          name: 'Bob'
-        }, (err, _res) => {
+        .expect(200, [{
+          age: 3,
+          kind: 'owl',
+          name: 'Hugo'
+        }], (err, _res) => {
           if (err) {
             return done(err);
           }
