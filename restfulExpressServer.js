@@ -40,9 +40,9 @@ app.get('/pets/:index', async (req, res) => {
 app.post('/pets', async (req, res) => {
     await readFunction();
     const newPet = {
-        name: req.body.name,
         age: req.body.age,
-        kind: req.body.kind
+        kind: req.body.kind,
+        name: req.body.name
     }
 
     if (!newPet.name || !newPet.age || !newPet.kind) {
