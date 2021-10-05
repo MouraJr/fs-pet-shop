@@ -65,19 +65,17 @@ app.patch('/pets/:index', async (req, res) => {
     // Conditional if exist
     if (found) {
         const patchPet = req.body;
-        const petToUpdate = data.find(pet => data.indexOf(pet) === parseInt(req.params.index));
+        const petToUpdate = data[req.params.index];
         const updatedPet = { ...petToUpdate, ...patchPet };
+
+        // Writing data to pets.json
+        data[req.params.index] = updatedPet;
+        await writeFile('pets.json', JSON.stringify(data))
 
         res.set('Content-Type', 'application/json')
         res.status(200);
-        res.send(updatedPet)
+        res.send(updatedPet);
 
-
-        // Writing data to pets.json
-        // await writeFile('pets.json', JSON.stringify(data))
-        // await readFunction()
-        // res.set('Content-Type', 'application/json')
-        // res.json(data[req.params.index])
     } else if (!found) {
         res.set('Content-Type', 'text/plain')
         res.status(404);
