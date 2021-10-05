@@ -11,6 +11,11 @@ app.use(morgan('combined'))
 // Body Parser Middleware
 app.use(express.json());
 
+// 404 Middleware
+app.use(function (req, res, next) {
+    res.status(404).set('Content-Type', 'text/plain').end('Not Found')
+})
+
 // Get the data
 app.get('/pets', async (req, res) => {
     await readFunction();
