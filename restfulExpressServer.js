@@ -11,11 +11,6 @@ app.use(morgan('combined'))
 // Body Parser Middleware
 app.use(express.json());
 
-// 404 Middleware
-app.use(function (req, res, next) {
-    res.status(404).set('Content-Type', 'text/plain').end('Not Found')
-})
-
 // Get the data
 app.get('/pets', async (req, res) => {
     await readFunction();
@@ -111,6 +106,11 @@ app.delete('/pets/:index', async (req, res) => {
         res.end('Not Found');
     }
 });
+
+// 404 Middleware error handler
+app.use((req, res, next) => {
+    res.status(404).set('Content-Type', 'text/plain').end('Not Found')
+})
 
 // Variable for PORT 8000 if in development
 const PORT = process.env.PORT || 8000;
