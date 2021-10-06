@@ -1,4 +1,4 @@
-const { Pool, Client } = require('pg')
+const { Pool } = require('pg')
 
 const pool = new Pool({
     user: 'postgres',
@@ -14,13 +14,13 @@ const pool = new Pool({
 // })
 
 
-const client = new Client({
-    user: 'postgres',
-    host: 'localhost',
-    database: 'petshop',
-    password: '112358',
-    port: 5432,
-})
+// const client = new Client({
+//     user: 'postgres',
+//     host: 'localhost',
+//     database: 'petshop',
+//     password: '112358',
+//     port: 5432,
+// })
 
 // client.connect()
 // client.query('SELECT NOW()', (err, res) => {
@@ -28,4 +28,4 @@ const client = new Client({
 //   client.end()
 // })
 
-module.exports = pool, client;
+module.exports = pool;
