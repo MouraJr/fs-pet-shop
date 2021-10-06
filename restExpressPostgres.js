@@ -1,11 +1,24 @@
 const express = require('express');
 const app = express();
+const basicAuth = require('express-basic-auth')
 const pool = require('./db');
 
 // Get body
 app.use(express.json())
 
 const badRequest = (res) => res.status(400).set('Content-Type', 'text/plain').end('Not Found');
+
+// Auth middleware
+app.use(basicAuth({
+    users: { 'admin': 'supersecret' },
+    unauthorizedResponse: getUnauthorizedResponse
+}))
+
+function getUnauthorizedResponse(req) {
+    return req.auth
+        ? ('Unauthorized')
+        : 'No credentials provided'
+}
 
 /* ROUTES */
 
